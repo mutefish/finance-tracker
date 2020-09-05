@@ -9,8 +9,8 @@ class UsersController < ApplicationController
 
   def search
     if params[:friend].present?
-      @friend = params[:friend]
-      if @friend
+      @friend = User.search(params[:friend])
+      if @friend.any?
           respond_to do |format|
               format.js { render partial: 'users/friend_result' }
           end
