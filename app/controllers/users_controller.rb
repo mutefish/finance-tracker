@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     if params[:friend].present?
       @friends = User.search(params[:friend])
       @friends = current_user.except_current_user(@friends)
+      @friends.reject { |friend| current_user.is_friends_with(friend) }
       if @friends.any?
           respond_to do |format|
               format.js { render partial: 'users/friend_result' }
