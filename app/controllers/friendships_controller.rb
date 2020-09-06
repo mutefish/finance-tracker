@@ -1,7 +1,12 @@
 class FriendshipsController < ApplicationController
     
     def create
-        Friendship.create(user_id: params[user_id], friend_id: params[friend_id])
+        current_user.friends << User.find(params[:friend])
+        if current_user.save
+            flash[:notice] = "Following user"
+        else  
+            flash[:alert] = "An error occured"
+        end
         redirect_to my_friends_path
     end
 
